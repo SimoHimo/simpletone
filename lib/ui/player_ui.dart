@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:simpletone/ui/playlist_ui.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isPlaying = true;
+  bool _isPlaying = false;
   bool _suffled = false;
   bool _looped = false;
   bool _isFavorite = false;
@@ -46,6 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.grey[300],
+      statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+    ));
+
     String formatTime(Duration duration) {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
 
@@ -58,11 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
         seconds,
       ].join(':');
     }
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.grey[300],
-      statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-    ));
 
     @override
     void initState() {
@@ -311,7 +310,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       shape: BoxShape.circle,
                       // If widget is not elevated, elevate it.
                       boxShadow: _isPlaying
-                          ?
+                          ? [const BoxShadow(color: Colors.grey)]
+                          :
                           // Elevation Effect
                           [
                               const BoxShadow(
@@ -328,8 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 blurRadius: 30,
                                 spreadRadius: 1,
                               ),
-                            ]
-                          : [const BoxShadow(color: Colors.grey)],
+                            ],
                     ),
                   ),
                 ),
